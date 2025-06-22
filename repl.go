@@ -37,11 +37,22 @@ func startRepl(cfg *config) {
 			fmt.Println("Unknown command:", cleanedInput[0])
 			continue
 		}
-		if err := command.callback(cfg); err != nil {
-			fmt.Fprintln(os.Stderr, "Error executing command:", err)
-		}
-		if cleanedInput[0] == "exit" {
-			command.callback(cfg)
+		switch cleanedInput[0] {
+		case "explore":
+			if len(cleanedInput) < 2 {
+				fmt.Println("Please provide a location name to explore.")
+				continue
+			}
+			command.callback(cleanedInput[1:], cfg)
+		case "catch":
+			if len(cleanedInput) < 2 {
+				fmt.Println("Please find a Pokemon to capture!")
+			}
+			command.callback(cleanedInput[1:], cfg)
+		default:
+			if err := command.callback(cleanedInput, cfg); err != nil {
+				fmt.Fprintln(os.Stderr, "Error executing command:", err)
+			}
 		}
 	}
 }
