@@ -49,6 +49,11 @@ func startRepl(cfg *config) {
 				fmt.Println("Please find a Pokemon to capture!")
 			}
 			command.callback(cleanedInput[1:], cfg)
+		case "inspect":
+			if len(cleanedInput) < 2 {
+				fmt.Println("Please choose a Pokemon to inspect.")
+			}
+			command.callback(cleanedInput[1:], cfg)
 		default:
 			if err := command.callback(cleanedInput, cfg); err != nil {
 				fmt.Fprintln(os.Stderr, "Error executing command:", err)
